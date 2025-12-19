@@ -1,0 +1,13 @@
+APP_VERSION="${app_version}"
+BUCKET_NAME="${artifact_bucket}"
+
+dnf update -y
+dnf install -y nginx
+
+mkdir -p /usr/share/nginx/html
+
+curl -fL "https://${BUCKET_NAME}.s3.amazonaws.com/releases/${APP_VERSION}/index.html" \
+  -o /usr/share/nginx/html/index.html
+
+systemctl enable nginx
+systemctl restart nginx
